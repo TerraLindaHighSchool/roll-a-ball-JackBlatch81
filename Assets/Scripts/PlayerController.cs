@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 0;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
+    public GameObject titleObject;
     public float jumpForce = 0;
     public float jumpForce2 = 0;
 
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
         SetCountText();
         winTextObject.SetActive(false);
+        titleObject.SetActive(true);
+        
     }
 
     void OnMove(InputValue movementValue)
@@ -49,6 +52,10 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
         
         rb.AddForce(movement * speed);
+        if (count >= 1)
+        {
+            titleObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,6 +74,10 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Jump Pad2"))
         {
             rb.AddForce(Vector3.up * jumpForce2);
+        }
+        if (other.gameObject.CompareTag("Respawn"))
+        {
+            transform.position = new Vector3(0.09f, 3.50f, -14.06f);
         }
     }
 }
